@@ -31,3 +31,6 @@
 * Build and run application.
 
 #### Screenshots <a name="screenshots"></a> :link: :
+![home-1](https://github.com/LaosCode/spring-mvc-gamestore-online/assets/139264017/460f5071-b9aa-470d-bd53-2f2164603d12) | ![product-page](https://github.com/LaosCode/spring-mvc-gamestore-online/assets/139264017/98a470c9-93c2-47bb-a86f-3867450c7e74)
+![login-form](https://github.com/LaosCode/spring-mvc-gamestore-online/assets/139264017/a5635ca7-bb6f-4518-9aaf-92de4d3f73d7)
+![account-page](https://github.com/LaosCode/spring-mvc-gamestore-online/assets/139264017/7886d348-2f5d-4c82-bc0e-0002a60afd54)
