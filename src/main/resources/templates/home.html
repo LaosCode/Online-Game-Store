@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/static/navbar-footer.css">
+<link rel="stylesheet" href="/static/product-list.css">
+<link rel="stylesheet" href="/static/style1.css">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+
+
+<div class="navbar-container">
+    <ul class="navbar-nav">
+        <a href="/" class="nav-item">
+            HOME
+        </a>
+        <a href="/all" class="nav-item">
+            GAMES
+        </a>
+        <a href="/contacts" class="nav-item">
+            CONTACTS
+        </a>
+
+    </ul>
+    <ul class="navbar-nav">
+        <li class="nav-item">
+        </li>
+        <li class="nav-item">
+        </li>
+        <li class="nav-item">
+        </li>
+    </ul>
+    <ul class="navbar-nav" sec:authorize="!isAuthenticated()">
+        <a href="/auth/login" class="nav-item">
+            LOGIN
+        </a>
+        <a href="/user/account" class="nav-item">
+            ACCOUNT
+        </a>
+        <a href="/registration" class="nav-item">
+            REGISTRATION
+        </a>
+    </ul>
+
+    <ul class="navbar-nav" sec:authorize="isAuthenticated()">
+        <a href="/cart" class="nav-item">
+            <i class="fa fa-shopping-cart" style="font-size:36px"></i>
+        </a>
+        <a href="auth/logout" class="nav-item">
+            LOGOUT
+        </a>
+        <a href="user/account" class="nav-item">
+            ACCOUNT
+        </a>
+    </ul>
+
+</div>
+
+<div class="products-container">
+    <div class="games-list-container" id="BestSellers">
+        <div class="product-list-title">
+            <a href="/best-sellers"><h2 style="color: #f2f2f2">BEST SELLERS</h2></a>
+        </div>
+        <div class="games-list">
+            <a class="game-container" th:each="product : ${best_sellers}"
+               th:href="@{/product/{id}(id=${product.getId()})}">
+                <div class="game-container-top">
+                    <img class="game-img" th:src="${product.getImagePath()}" alt="">
+                </div>
+                <div class="game-container-middle">
+                    <h6 th:text="${product.getProductTitle()}" class="game-title">GOD OF WAR</h6>
+                </div>
+                <div class="game-price">
+                    <span class="price_num" th:text="'$ '+ ${product.getPrice().toString()}">price</span>
+                    <span class="price-before-discount"
+                          th:text="'$ '+ ${product.getIncreasedPrice().toString()}">value</span>
+                </div>
+
+            </a>
+        </div>
+    </div>
+    <div class="games-list-container" id="New Arrivals">
+
+        <div class="product-list-title">
+            <a href="/new-arrivals"><h2 style="color: #f2f2f2" href="">NEW ARRIVALS</h2></a>
+        </div>
+        <div class="games-list">
+            <a class="game-container" th:each="product : ${new_arrivals}"
+               th:href="@{/product/{id}(id=${product.getId()})}">
+                <div class="game-container-top">
+                    <img class="game-img" th:src="${product.getImagePath()}" alt="">
+                </div>
+                <div class="game-container-middle">
+                    <h6 th:text="${product.getProductTitle()}" class="game-title">GOD OF WAR</h6>
+                </div>
+                <div class="game-price">
+                    <span class="price_num" th:text="'$ '+ ${product.getPrice().toString()}">price</span>
+                    <span class="price-before-discount"
+                          th:text="'$ '+ ${product.getIncreasedPrice().toString()}">value</span>
+                </div>
+
+            </a>
+        </div>
+
+    </div>
+    <div class="games-list-container" id="On sale">
+
+        <div class="product-list-title">
+            <a href="/on-sales"><h2 style="color: #f2f2f2" href="">ON SALE</h2></a>
+        </div>
+        <div class="games-list">
+            <a class="game-container" th:each="product : ${on_sales}" th:href="@{/product/{id}(id=${product.getId()})}">
+                <div class="game-container-top">
+                    <img class="game-img" th:src="${product.getImagePath()}" alt="">
+                </div>
+                <div class="game-container-middle">
+                    <h6 th:text="${product.getProductTitle()}" class="game-title">GOD OF WAR</h6>
+                </div>
+                <div class="game-price">
+                    <span class="price_num" th:text="'$ '+ ${product.getPrice().toString()}">price</span>
+                    <span class="price-before-discount"
+                          th:text="'$ '+ ${product.getIncreasedPrice().toString()}">value</span>
+                </div>
+
+            </a>
+        </div>
+
+    </div>
+</div>
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-col">
+            <img class="logo-img" src="/static/images/logo1.png" alt="">
+            <div class="company-title">
+                <h3>iPlayGames Store</h3>
+            </div>
+        </div>
+        <div class="footer-col">
+        </div>
+        <div class="footer-col">
+
+
+        </div>
+    </div>
+</footer>
+
+
+</body>
+</html>

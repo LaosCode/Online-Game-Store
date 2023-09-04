@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>Order</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/navbar-footer.css">
+    <link rel="stylesheet" href="/static/product-list.css">
+    <link rel="stylesheet" href="/static/style1.css">
+
+    <style>
+        .product-wrapper {
+            background-color: #f2f2f2;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25);
+            border-radius: 25px;
+            width: 920px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 150px;
+            display: flex;
+            flex-direction: column;
+            min-height: 15vh;
+            padding: 50px;
+            gap: 30px;
+        }
+
+
+        img {
+            margin-top: 10px;
+            height: 80%;
+            border-radius: 5px;
+
+        }
+
+        button {
+            height: 40px;
+            width: 100px;
+            margin-top: 10px;
+            font-size: 16px;
+            color: #212529;
+            background-color: #ffc107;
+            border: none;
+            border-radius: 0.25rem;
+        }
+
+        iframe {
+            width: 100%;
+            max-width: 720px;
+            aspect-ratio: 16/9;
+            margin: auto 0;
+        }
+        .check-out-button {
+            height: 40px;
+            width: 150px;
+            margin-top: 10px;
+            font-size: 20px;
+            border: none;
+            border-radius: 0.25rem;
+            color: #fff;
+            background-color: #28a745;
+        }
+
+        .order-row {
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+        }
+
+        .order-col1 {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+
+        }
+
+        .order-col2 {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            margin-left: 100px;
+        }
+
+        .form-group-row {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .form-control {
+            border-radius: 3px;
+            border-color: #adadad;
+        }
+
+        .label-col {
+            flex: 2;
+        }
+
+        .form-group-row2 {
+            flex: 1;
+        }
+
+        .form-control {
+            flex: 3;
+            width: 100%;
+            font-size: 1rem;
+            color: #495057;
+            background-color: #f5faf9;
+        }
+
+        img {
+            mix-blend-mode: multiply;
+            max-height: 30px;
+            padding: 3px;
+        }
+        table {
+            text-align: center;
+            font-size: 13px;
+            border-collapse: collapse;
+        }
+
+        .table-active {
+            background-color: rgba(0, 0, 0, .075);
+        }
+        th {
+            padding-left: 25px;
+            padding-right: 25px;
+            vertical-align: top;
+            border-top: 1px solid;
+
+        }
+    </style>
+</head>
+<body>
+
+
+<div class="navbar-container">
+    <ul class="navbar-nav">
+        <a href="/" class="nav-item">
+            HOME
+        </a>
+        <a href="/all" class="nav-item">
+            GAMES
+        </a>
+        <a href="/contacts" class="nav-item">
+            CONTACTS
+        </a>
+
+    </ul>
+    <ul class="navbar-nav">
+        <li class="nav-item">
+        </li>
+        <li class="nav-item">
+        </li>
+        <li class="nav-item">
+        </li>
+    </ul>
+    <ul class="navbar-nav" sec:authorize="!isAuthenticated()">
+        <a href="/auth/login" class="nav-item">
+            LOGIN
+        </a>
+        <a href="/user/account" class="nav-item">
+            ACCOUNT
+        </a>
+        <a href="/registration" class="nav-item">
+            REGISTRATION
+        </a>
+    </ul>
+
+    <ul class="navbar-nav" sec:authorize="isAuthenticated()">
+        <a href="/cart" class="nav-item">
+            <i class="fa fa-shopping-cart" style="font-size:36px"></i>
+        </a>
+        <a href="/user/account" class="nav-item">
+            ACCOUNT
+        </a>
+        <a href="/auth/logout" class="nav-item">
+            LOGOUT
+        </a>
+    </ul>
+
+</div>
+<div class="product-wrapper">
+    <h3>Order</h3>
+    <form action="/order" method="POST">
+        <div class="order-row">
+            <div class="order-col1">
+                <div class="form-group-row">
+                    <label class="label-col">First name:</label>
+                    <input type="text" name="firstName" value="" class="form-control">
+                </div>
+
+                <div class="form-group-row">
+                    <label class="label-col">Last name:</label>
+                    <input type="text" name="lastName" value="" class="form-control">
+                </div>
+
+                <div class="form-group-row">
+                    <label class="label-col">City:</label>
+                    <input type="text" name="city" value="" class="form-control">
+                </div>
+
+                <div class="form-group-row">
+                    <label class="label-col">Address:</label>
+                    <input type="text" name="address" value="" class="form-control">
+                </div>
+
+                <div class="form-group-row">
+                    <label class="label-col">Post index:</label>
+                    <input type="text" name="postIndex" value="" class="form-control">
+                </div>
+
+                <div class="form-group-row">
+                    <label class="label-col">Phone number:</label>
+                    <input type="text" name="phoneNumber" value="" class="form-control">
+                </div>
+
+                <div class="form-group-row">
+                    <label class="label-col">email:</label>
+                    <input type="text" name="email" value="" class="form-control">
+                    <input type="hidden" name="totalPrice" th:value="${#aggregates.sum(products.![price])}" class="form-control">
+                </div>
+
+
+            </div>
+            <div class="order-col2">
+                <div class="form-group-row2">
+                    <h3>Product Listing:</h3>
+                    <table>
+                        <thead class="table-active">
+                        <tr>
+                            <th>Title</th>
+                            <th>Price, $</th>
+                        </tr>
+                        </thead>
+                        <tbody th:each="product : ${products}">
+                        <tr>
+                            <th th:text="${product.getProductTitle()}">alex@gmail.com</th>
+                            <th th:text="${product.getPrice()}">$39.99</th>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <br>
+                <br>
+
+                <div class="form-group-row2">
+                    <h2 style="color: black">Total: $<span th:text="${#aggregates.sum(products.![price])}"></span></h2>
+                </div>
+                <div class="form-group-row2">
+                    <button class="check-out-button" type="submit" name="orderRequest">
+                        Order
+                    </button>
+                    <img src="https://d3.harvard.edu/platform-digit/wp-content/uploads/sites/2/2020/02/visa-logo-png-2026-1-1100x200.png">
+
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-col">
+            <img class="logo-img" src="/static/images/logo1.png" alt="">
+            <div class="company-title">
+                <h3>iPlayGames Store</h3>
+            </div>
+        </div>
+        <div class="footer-col">
+        </div>
+        <div class="footer-col">
+
+
+        </div>
+    </div>
+</footer>
+
+
+</div>
+</body>
+</html>

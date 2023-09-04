@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/navbar-footer.css">
+    <link rel="stylesheet" href="/static/product-list.css">
+    <link rel="stylesheet" href="/static/style1.css">
+    <style>
+
+        .product-wrapper {
+            background-color: #f2f2f2;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25);
+            border-radius: 25px;
+            width: 920px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 50px;
+            display: flex;
+            flex-direction: column;
+            min-height: 50vh;
+        }
+
+        .top-section {
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: row;
+            gap: 100px;
+
+        }
+
+        .game-image {
+            height: 240px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 30px;
+            border-radius: 25px;
+
+        }
+
+        .image-box {
+            justify-content: center;
+            width: 300px;
+            height: 300px;
+            background-color: white;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25);
+        }
+
+        .text-top {
+            max-width: 400px;
+
+        }
+
+        .product-title {
+            font-weight: bold;
+            font-size: 36px;
+            color: black;
+        }
+
+        .product-container {
+            padding: 40px;
+        }
+
+        .product-publisher {
+        }
+
+        .checked {
+            color: orange;
+        }
+
+        .middle-section {
+            margin-top: 50px;
+            opacity: .7;
+
+        }
+
+        button {
+            height: 45px;
+            width: 200px;
+            margin-top: 20px;
+            color: white;
+            border: none;
+            font-size: 20px;
+            font-weight: bold;
+            background: linear-gradient(-15.85deg, #56BE60 12.94%, #04560C 106.4%);
+        }
+
+        .product-price {
+            font-weight: bold;
+            font-size: 36px;
+            color: black;
+        }
+
+        .product-bottom-section {
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: row;
+            padding-top: 30px;
+            gap: 40px;
+        }
+
+
+        .product-trailer {
+            flex: 1;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+
+        }
+
+        iframe {
+            width: 100%;
+            max-width: 720px;
+            aspect-ratio: 16/9;
+            margin: auto 0;
+        }
+
+        .game-requirement-block {
+            flex: 1;
+            display: flex;
+            opacity: .7;
+            gap: 10px;
+            flex-direction: column;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar-container">
+    <ul class="navbar-nav">
+        <a href="/" class="nav-item">
+            HOME
+        </a>
+        <a href="/all" class="nav-item">
+            GAMES
+        </a>
+        <a href="/contacts" class="nav-item">
+            CONTACTS
+        </a>
+
+    </ul>
+    <ul class="navbar-nav">
+        <li class="nav-item">
+        </li>
+        <li class="nav-item">
+        </li>
+        <li class="nav-item">
+        </li>
+    </ul>
+    <ul class="navbar-nav" sec:authorize="!isAuthenticated()">
+        <a href="/auth/login" class="nav-item">
+            LOGIN
+        </a>
+        <a href="/user/account" class="nav-item">
+            ACCOUNT
+        </a>
+        <a href="/registration" class="nav-item">
+            REGISTRATION
+        </a>
+    </ul>
+
+    <ul class="navbar-nav" sec:authorize="isAuthenticated()">
+        <a href="/cart" class="nav-item">
+            <i class="fa fa-shopping-cart" style="font-size:36px"></i>
+        </a>
+        <a href="/user/account" class="nav-item">
+            ACCOUNT
+        </a>
+        <a href="/auth/logout" class="nav-item">
+            LOGOUT
+        </a>
+    </ul>
+
+</div>
+
+
+<div class="product-wrapper">
+    <div class="product-container">
+        <div class="top-section">
+            <div class="image-box">
+                <img class="game-image" th:src="${product.getImagePath()}" alt="">
+            </div>
+            <div class="text-top">
+                <p class="product-title" th:text="${product.getProductTitle()}">Game title</p>
+                <p class="product-publisher" th:text="${product.getProducer()}">Insomniac Games 2011</p>
+                <div class="stars">
+                    <span th:if="${product.getRating()>0}" class="fa fa-star checked"></span>
+                    <span th:if="${product.getRating()>1}" class="fa fa-star checked"></span>
+                    <span th:if="${product.getRating()>2}" class="fa fa-star checked"></span>
+                    <span th:if="${product.getRating()>3}" class="fa fa-star checked"></span>
+                    <span th:if="${product.getRating()>4}" class="fa fa-star checked"></span>
+                    <span th:if="${product.getRating()<5}" class="fa fa-star"></span>
+                    <span th:if="${product.getRating()<4}" class="fa fa-star"></span>
+                    <span th:if="${product.getRating()<3}" class="fa fa-star"></span>
+                    <span th:if="${product.getRating()<2}" class="fa fa-star"></span>
+                    <span th:if="${product.getRating()<1}" class="fa fa-star"></span>
+
+                </div>
+                <div class="price-tag"></div>
+                <div class="product-price" th:text="'$'+${product.getPrice().toString()}">$29.99</div>
+
+                <form action="/cart/add" method="POST">
+                    <button type="submit" name="productId" th:value="${product.getId()}">
+                        ADD TO CART
+                    </button>
+                </form>
+
+
+            </div>
+        </div>
+        <div class="middle-section">
+            <p style="font-weight: bold; font-size: 20px">About the Game</p>
+            <p th:text="${product.getDescription()}">Explore a new chapter in Marvel’s Spider-Man universe as a more
+                experienced Peter Parker.
+
+                Starring one of the world’s most iconic Super Heroes, Marvel's Spider-Man features the acrobatic
+                abilities, improvisation and web-slinging that the wall-crawler is famous for, while also introducing
+                elements never-before-seen in a Spider-Man game.
+
+                From traversing by parkour and unique environmental interactions, to new combat and blockbuster action,
+                it’s Spider-Man unlike any you’ve played before.</p>
+        </div>
+        <div class="product-bottom-section">
+            <div class="game-requirement-block">
+                <div>
+                    <h2>Additional details</h2>
+                </div>
+                <div>
+                    <h3>Game
+                        Type: </h3> Campaign
+                </div>
+                <div>
+                    <h3>Genre: </h3> Action / Adventure
+                </div>
+                <div>
+                    <strong>Metacritic Review Score: </strong>
+                    <p>95/100</p>
+                </div>
+                <div>
+                    <strong>Release Date: </strong>
+                    <p>
+                        14 Jun 2013 </p>
+                </div>
+                <div>
+                    <strong>Developer: </strong>
+                    <p> Naughty Dog</p>
+                </div>
+                <div>
+                    <strong>Playable On: </strong>
+                    <p> PS4, PS5</p>
+                </div>
+
+            </div>
+            <div class="product-trailer">
+                <div>
+                    <h2 style="opacity: 0.7;">Official Trailer</h2>
+                </div>
+                <br>
+                <br>
+                <div>
+                    <iframe th:src="${product.getVideoLink()}"
+                            title="Marvel’s Spider-Man – Be Greater Extended Trailer | PS4" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen></iframe>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-col">
+            <img class="logo-img" src="/static/images/logo1.png" alt="">
+            <div class="company-title">
+                <h3>iPlayGames Store</h3>
+            </div>
+        </div>
+        <div class="footer-col">
+        </div>
+        <div class="footer-col">
+
+
+        </div>
+    </div>
+</footer>
+</body>
+</html>
