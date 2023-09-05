@@ -8,10 +8,13 @@ import alex.com.store.model.Product;
 import alex.com.store.repository.ProductRepository;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.UUID;
@@ -26,7 +29,8 @@ public class ProductService {
     private final ModelMapper modelMapper;
 
     public Product getProductById(int productId) {
-        return productRepository.findById(productId).orElse(null);
+        return productRepository.findById(productId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, ErrorMessage.PRODUCT_NOT_FOUND));
     }
 
     public List<Product> getBestSellingProducts() {
@@ -64,7 +68,7 @@ public class ProductService {
         MultipartFile file = productRequest.getMultipartFile();
         Product product = modelMapper.map(productRequest, Product.class);
         Product productToBeUpdated = productRepository.findById(Math.toIntExact(id)).orElse(null);
-        if (file ==  null) {
+        if (file == null) {
             product.setImage(productToBeUpdated.getImage());
         }
         if (file != null) {

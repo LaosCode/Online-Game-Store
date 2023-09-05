@@ -34,7 +34,6 @@ public class UserService {
         user.setAddress(request.getAddress());
         user.setPhoneNumber(request.getPhoneNumber());
         user.setPostIndex(request.getPostIndex());
-//        userRepository.save(user);
     }
 
     public void deleteUser(int id) {

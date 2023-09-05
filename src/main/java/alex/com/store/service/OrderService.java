@@ -1,5 +1,6 @@
 package alex.com.store.service;
 
+import alex.com.store.constants.ErrorMessage;
 import alex.com.store.dto.request.OrderRequest;
 import alex.com.store.model.Order;
 import alex.com.store.model.Product;
@@ -7,8 +8,10 @@ import alex.com.store.model.User;
 import alex.com.store.repository.OrderRepository;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -22,7 +25,8 @@ public class OrderService {
     private final UserService userService;
 
     public Order getOrderById(int id) {
-        return orderRepository.findById(id).orElse(null);
+        return orderRepository.findById(id)
+                .orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND, ErrorMessage.ORDER_NOT_FOUND));
     }
 
     public List<Order> getUserOrderList() {

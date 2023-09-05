@@ -1,5 +1,7 @@
 package alex.com.store.service;
 
+import alex.com.store.exceptions.FailedToDeleteFileException;
+import alex.com.store.exceptions.FailedToSaveFileException;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
@@ -30,7 +32,7 @@ public class ImageService {
             try {
                 Files.createDirectories(uploadPath);
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                throw new NoSuchFieldError("Could not create path");
             }
         }
 
@@ -38,7 +40,7 @@ public class ImageService {
             Path filePath = uploadPath.resolve(fileName);
             Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException ioe) {
-            throw new RuntimeException("Could not save image file: " + fileName, ioe);
+            throw new FailedToSaveFileException("Could not save image file: " + fileName, ioe);
         }
     }
 
@@ -48,7 +50,7 @@ public class ImageService {
             Files.delete(path);
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new FailedToDeleteFileException("Could not delete file " + fileName,e);
         }
 
     }
